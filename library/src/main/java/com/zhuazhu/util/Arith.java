@@ -11,7 +11,7 @@ public class Arith {
     /**
      * 取最大值
      * @param lgs
-     * @return
+     * @return 返回long中最大的值
      */
     public static float max(long... lgs){
         long max = lgs[0];
@@ -66,7 +66,7 @@ public class Arith {
     }
     /**
      * 取最大值
-     * @param objs
+     * @param objs (double,long,int,float,String-必须是数字字符串)
      * @return
      */
     public static BigDecimal max(Object... objs){
@@ -96,7 +96,7 @@ public class Arith {
     /**
      * 取最小值
      * @param flts
-     * @return
+     * @return 最小值
      */
     public static float min(float... flts){
         float min = flts[0];

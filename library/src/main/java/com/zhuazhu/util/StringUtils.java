@@ -288,9 +288,7 @@ public class StringUtils {
      * @return
      */
     public static boolean isNotEmpty(String str) {
-        boolean flag = false;
-        flag = !(str == null || "".equals(str.trim()));
-        return flag;
+        return !isEmpty(str);
     }
 
     /**

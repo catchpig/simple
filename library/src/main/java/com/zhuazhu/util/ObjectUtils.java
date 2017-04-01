@@ -106,7 +106,7 @@ public class ObjectUtils {
      * <li>if v1 < v2, return -1</li>
      * </ul>
      * <ul>
-     * <strong>About rule</strong>
+     * About rule
      * <li>if v1 is null, v2 is null, then return 0</li>
      * <li>if v1 is null, v2 is not null, then return -1</li>
      * <li>if v1 is not null, v2 is null, then return 1</li>
