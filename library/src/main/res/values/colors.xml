@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 透明 -->
+    <color name="transparency">#0000</color>
+    <!-- 半透明 -->
+    <color name="translucence">#2000</color>
+</resources>

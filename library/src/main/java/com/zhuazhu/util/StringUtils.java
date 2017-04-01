@@ -1,0 +1,314 @@
+package com.zhuazhu.util;
+
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public class StringUtils {
+    /**
+     * 验证请求地址是否是自带http或者https
+     * @param url web地址
+     * @return
+     */
+    public static boolean validateHttpOrHttps(String url){
+        if(StringUtils.isEmpty(url)){
+            return false;
+        }
+        return url.length() > 4 && ("http".equals(url.substring(0, 4)) || "https".equals(url.substring(0, 5)));
+    }
+    /**
+     * 查询支付方式的名称
+     *
+     * @param key
+     * @return
+     */
+    public static String queryPayTypeName(String key) {
+        String name = "";
+        switch (key) {
+            case "01":
+                name = "促销券";
+                break;
+            case "02":
+                name = "微信";
+                break;
+            case "03":
+                name = "支付宝";
+                break;
+            case "04":
+                name = "红包";
+                break;
+            case "05":
+                name = "货到付款";
+                break;
+            case "06":
+                name = "销售款";
+                break;
+            case "07":
+                name = "现金";
+                break;
+            case "08":
+                name = "翼支付";
+                break;
+            case "09":
+                name = "银联";
+                break;
+            case "10":
+                name = "米珈生活卡";
+                break;
+            case "11":
+                name = "现金券";
+                break;
+            case "12":
+                name = "立减";
+                break;
+            case "13":
+                name = "商户储值卡";
+                break;
+            case "14":
+                name = "连锁商户储值卡";
+                break;
+            case "15":
+                name = "百度钱包";
+                break;
+            case "16":
+                name = "QQ钱包";
+                break;
+            case "17":
+                name = "银联钱包";
+                break;
+            case "18":
+                name = "京东钱包";
+                break;
+            case "30":
+                name = "其他支付";
+                break;
+            case "99":
+                name = "折扣金额";
+                break;
+            default:
+                break;
+        }
+        return name;
+    }
+
+
+    /**
+     * 转换为12的金额
+     *
+     * @param money
+     * @return
+     */
+    public static String convert12Money(String money) {
+        //12位的金钱(后两位表示角和分)
+        StringBuffer rmb = new StringBuffer();
+        if (money.indexOf(".") != -1) {//有小数
+            String[] ms = money.split("\\.");
+            for (int i = 0; i < 10 - ms[0].length(); i++) {
+                rmb.append("0");
+            }
+            rmb.append(ms[0]);
+            if (ms[1].length() > 2) {
+                rmb.append(ms[1].substring(0, 2));
+            } else {
+                rmb.append(ms[1]);
+                for (int i = 0; i < 2 - ms[1].length(); i++) {
+                    rmb.append("0");
+                }
+            }
+        } else {//没有小数
+            for (int i = 0; i < 10 - money.length(); i++) {
+                rmb.append("0");
+            }
+            rmb.append(money);
+            rmb.append("00");
+        }
+        return rmb.toString();
+    }
+
+    /**
+     * 验证是否包含非法字符
+     * @param str
+     * @return
+     */
+    public static boolean validateIllegalChar(String str){
+        String c = "^[a-z0-9A-Z\\u4e00-\\u9fa5][-(),.?，。？a-z0-9A-Z\\u4e00-\\u9fa5]*$";
+        return !str.matches(c);
+    }
+
+    /**
+     * 验证车牌号
+     *
+     * @param plate
+     * @return
+     */
+    public static boolean validatePlateNumber(String plate) {
+        Pattern pattern = Pattern.compile("^[\\u4e00-\\u9fa5]{1}[A-Z]{1}[A-Z_0-9]{5}$");
+        Matcher matcher = pattern.matcher(plate);
+        return matcher.matches();
+    }
+
+    /**
+     * 验证数字
+     * @param number
+     * @return
+     */
+    public static boolean validateNumber(String number){
+       return number.matches("^[-+]?\\d+(.)?\\d+$");
+    }
+
+    /**
+     * 验证身份证号
+     *
+     * @param identity
+     * @return
+     */
+    public static boolean validateIdentity(String identity) {
+        boolean flag = false;
+        int length = identity.length();
+        if (length == 15 || length == 18) {
+            Pattern p;
+            if (length == 15) {//15位身份证号
+                p = Pattern.compile("^[1-9]\\d{7}((0\\d)|(1[0-2]))(([0|1|2]\\d)|3[0-1])\\d{3}$");
+            } else {//18位身份证号
+                p = Pattern.compile("^[1-9]\\d{5}[1-9]\\d{3}((0\\d)|(1[0-2]))(([0|1|2]\\d)|3[0-1])\\d{4}$");
+            }
+            //通过Pattern获得Matcher
+            Matcher matcher = p.matcher(identity);
+            flag = matcher.matches();
+        }
+        return flag;
+    }
+
+    /**
+     * 保留小数位数
+     *
+     * @param scale 小数位数
+     * @param obj
+     * @return
+     */
+    public static String decimal(int scale, Object obj) {
+        return String.format("%." + scale + "f", obj);
+    }
+
+    /**
+     * 格式化数字字符串为4位隔开显示
+     * @param cardNumber
+     * @return
+     */
+    public static String formatCardNumber(String cardNumber){
+        int len = cardNumber.length()/4;
+        StringBuffer buffer = new StringBuffer(cardNumber);
+        for (int i=len;i>0;i--){
+            buffer.insert(4*i," ");
+        }
+        return buffer.toString();
+    }
+    /**
+     * 格式化小数位数
+     * @param obj 数字,数字字符串
+     * @param scale 小数位数
+     * @return
+     */
+    public static String format(Object obj,int scale){
+        if(obj instanceof String){
+            if(validateNumber(obj.toString())){
+                obj = new BigDecimal(obj.toString()).doubleValue();
+            }else{
+                obj = 0;
+            }
+        }
+        StringBuffer buffer = new StringBuffer("");
+        for (int i=0;i<scale;i++){
+            buffer.append("0");
+        }
+        DecimalFormat decimalFormat=new DecimalFormat("#0."+buffer.toString());
+        return decimalFormat.format(obj);
+    }
+
+    /**
+     * 格式化金额为两位小数,不足两位小数的补0
+     * @param obj
+     * @return
+     */
+    public static String money(Object obj){
+        return format(obj,2);
+    }
+
+    /**
+     * is null or its length is 0 or it is made by space
+     *
+     * <pre>
+     * isBlank(null) = true;
+     * isBlank(&quot;&quot;) = true;
+     * isBlank(&quot;  &quot;) = true;
+     * isBlank(&quot;a&quot;) = false;
+     * isBlank(&quot;a &quot;) = false;
+     * isBlank(&quot; a&quot;) = false;
+     * isBlank(&quot;a b&quot;) = false;
+     * </pre>
+     *
+     * @param str
+     * @return if string is null or its size is 0 or it is made by space, return true, else return false.
+     */
+    public static boolean isBlank(String str) {
+        return (str == null || str.trim().length() == 0);
+    }
+    /**
+     * 验证字符串是否为空
+     * @param strs
+     * @return 只要有一个为空,就返回true
+     */
+    public static boolean isEmpty(String... strs){
+        for (String s:strs){
+            boolean flag = isEmpty(s);
+            if(flag){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 判断字符串是否为空
+     *
+     * @param str
+     * @return
+     */
+    public static boolean isEmpty(String str) {
+        boolean flag = true;
+        flag = str == null || "".equals(str.trim());
+        return flag;
+    }
+
+    /**
+     * 判断字符串是否不为空
+     *
+     * @param str
+     * @return
+     */
+    public static boolean isNotEmpty(String str) {
+        boolean flag = false;
+        flag = !(str == null || "".equals(str.trim()));
+        return flag;
+    }
+
+    /**
+     * 验证手机号
+     *
+     * @param phone
+     * @return
+     */
+    public static boolean validatePhone(String phone) {
+        boolean flag = false;
+        if (phone == null || "".equals(phone.trim())
+                || phone.length() != 11
+                || !(phone.substring(0, 1)).equals("1")) {
+            flag = false;
+        } else {
+            Pattern p = Pattern.compile("^1(3|4|5|7|8)\\d{9}$");
+            flag = p.matcher(phone).matches();
+        }
+        return flag;
+    }
+}
