@@ -47,7 +47,7 @@ public class Download {
             }
             br.close();
         } catch (Exception e) {
-            Log.e(this.getClass().getName(), e.toString());
+            LogUtils.e(this.getClass().getName(), e.toString());
         }
         return sb.toString();
     }
@@ -63,7 +63,7 @@ public class Download {
             urlcon = (HttpURLConnection) url.openConnection();
         } catch (Exception e) {
             e.printStackTrace();
-            Log.e(this.getClass().getName(), e.toString());
+            LogUtils.e(this.getClass().getName(), e.toString());
         }
         return urlcon;
     }
@@ -88,7 +88,7 @@ public class Download {
         if (!file.exists()) {
             flag = file.mkdirs();
             //创建文件夹
-            //Log.d("log", sb.toString());
+            //LogUtils.d("log", sb.toString());
         }
         //获取文件全名
         sb.append(filename);
@@ -110,7 +110,7 @@ public class Download {
             }
             is.close();
         } catch (Exception e) {
-            Log.e(this.getClass().getName(),"error:"+flag,e);
+            LogUtils.e(this.getClass().getName(),"error:"+flag,e);
             return 0;
         } finally {
             try {

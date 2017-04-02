@@ -4,7 +4,7 @@ package com.zhuazhu.util;
  * Created by tao on 2016/11/23.
  */
 
-public class Log {
+public class LogUtils {
     private static final boolean flag = true;
     public static void e(String tag,String msg){
         if(flag){
