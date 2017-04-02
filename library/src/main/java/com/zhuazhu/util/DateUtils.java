@@ -12,12 +12,113 @@ import java.util.Date;
 
 public class DateUtils {
     /**
-     * 得到当前日期是星期几。
-     *
-     * @return 当为周日时，返回0，当为周一至周六时，则返回对应的1-6。
+     * 当前日期加几年或者减几年
+     * @param date
+     * @param year 加或者减的年数
+     * @return
      */
-    public static final int dayOfWeek() {
-        return Calendar.getInstance().get(Calendar.DAY_OF_WEEK) - 1;
+    public static Date calculateYear(Date date,int year){
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        return calculateYear(calendar,year);
+    }
+    /**
+     * 当前日期加几年或者减几年
+     * @param calendar
+     * @param year 加或者减的年数
+     * @return
+     */
+    public static Date calculateYear(Calendar calendar,int year){
+        calendar.add(Calendar.YEAR,year);
+        return calendar.getTime();
+    }
+    /**
+     * 当前日期加几月或者减几月
+     * @param date
+     * @param month 加或者减的月数
+     * @return
+     */
+    public static Date calculateMonth(Date date,int month){
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        return calculateMonth(calendar,month);
+    }
+    /**
+     * 当前日期加几月或者减几月
+     * @param calendar
+     * @param month 加或者减的月数
+     * @return
+     */
+    public static Date calculateMonth(Calendar calendar,int month){
+        calendar.add(Calendar.MONTH,month);
+        return calendar.getTime();
+    }
+    /**
+     * 当前日期加几天或者减几天
+     * @param date
+     * @param day 加或者减的天数
+     * @return
+     */
+    public static Date calculateDay(Date date,int day){
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        return calculateDay(calendar,day);
+    }
+    /**
+     * 当前日期加几天或者减几天
+     * @param calendar
+     * @param day 加或者减的天数
+     * @return
+     */
+    public static Date calculateDay(Calendar calendar,int day){
+        calendar.add(Calendar.DATE,day);
+        return calendar.getTime();
+    }
+
+    /**
+     * 得到今天是今年的第几天
+     * @return
+     */
+    public static int dayOfYear(){
+        return Calendar.getInstance().get(Calendar.DAY_OF_YEAR);
+    }
+    /**
+     * 得到今天是今年的第几周
+     * @return
+     */
+    public static int weekOfYear(){
+        return Calendar.getInstance().get(Calendar.WEEK_OF_YEAR);
+    }
+    /**
+     * 得到今天是当月的第几周
+     * @return
+     */
+    public static int weekOfMonth(){
+        return Calendar.getInstance().get(Calendar.WEEK_OF_MONTH);
+    }
+    /**
+     * 得到今天是星期几。
+     *
+     * @return
+     */
+    public static int dayOfWeek() {
+        //当为周日时，返回0，当为周一至周六时，则返回对应的1-6。
+        int dayOfWeek = Calendar.getInstance().get(Calendar.DAY_OF_WEEK) - 1;
+        if(dayOfWeek==0){
+            return 7;
+        }
+        return dayOfWeek;
+    }
+
+    /**
+     * 获取日
+     * @param date
+     * @return
+     */
+    public static int day(Date date){
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        return calendar.get(Calendar.DATE);
     }
     /**
      * 获取日
@@ -42,6 +143,17 @@ public class DateUtils {
     public static int day(Calendar calendar){
         return calendar.get(Calendar.DATE);
     }
+
+    /**
+     * 获取月
+     * @param date
+     * @return
+     */
+    public static int month(Date date){
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        return calendar.get(Calendar.MONTH)+1;
+    }
     /**
      * 获取月
      * @param date
@@ -64,6 +176,17 @@ public class DateUtils {
      */
     public static int month(Calendar calendar){
         return calendar.get(Calendar.MONTH)+1;
+    }
+
+    /**
+     * 获取年
+     * @param date
+     * @return
+     */
+    public static int year(Date date){
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        return calendar.get(Calendar.YEAR);
     }
     /**
      * 获取年
@@ -160,9 +283,20 @@ public class DateUtils {
     }
 
     /**
-     *
+     * calendar转日期字符串
+     * @param calendar
+     * @param pattern 日期格式
+     * @return
+     */
+    public static String string(Calendar calendar,String pattern){
+        DateFormat df = new SimpleDateFormat(pattern);
+        return df.format(calendar.getTime());
+    }
+
+    /**
+     *  日期字符串转时间毫秒数
      * @param date
-     * @param pattern
+     * @param pattern 日期格式
      * @return
      */
     public static long stringToLong(String date,String pattern){
@@ -174,9 +308,9 @@ public class DateUtils {
         }
     }
     /**
-     *
-     * @param date
-     * @param pattern
+     *  时间毫秒数转日期字符串
+     * @param date 日期毫秒数
+     * @param pattern 日期格式
      * @return
      */
     public static String longToString(long date,String pattern){
@@ -184,9 +318,9 @@ public class DateUtils {
         return df.format(new Date(date));
     }
     /**
-     *
-     * @param date
-     * @param pattern
+     *  日期转时间毫秒数
+     * @param date 日期
+     * @param pattern 日期格式
      * @return
      */
     public static long dateToLong(Date date,String pattern){
@@ -197,5 +331,23 @@ public class DateUtils {
         } catch (ParseException e) {
             return 0;
         }
+    }
+
+    /**
+     * 日期转时间毫秒数
+     * @param date 日期
+     * @return
+     */
+    public static long dateToLong(Date date){
+        return date.getTime();
+    }
+
+    /**
+     * calendar转时间毫秒数
+     * @param calendar
+     * @return
+     */
+    public static long calendarToLong(Calendar calendar){
+        return calendar.getTime().getTime();
     }
 }
