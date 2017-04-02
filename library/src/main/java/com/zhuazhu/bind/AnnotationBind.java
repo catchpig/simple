@@ -1,6 +1,10 @@
 package com.zhuazhu.bind;
 
 import android.app.Activity;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.zhuazhu.annotation.LayoutId;
 import com.zhuazhu.annotation.util.AnnotionUtil;
@@ -28,6 +32,25 @@ public class AnnotationBind {
         } else {
             LogUtils.i(TAG, "layoutId为空,请设置layoutId");
         }
+    }
+
+    /**
+     * 注入fragment的布局文件
+     * @param fragment
+     * @param inflater
+     * @param container
+     * @return 当前注解文件的View
+     */
+    public static View inject(Fragment fragment, LayoutInflater inflater,
+                              ViewGroup container){
+        LayoutId layoutId = AnnotionUtil.layoutId(fragment.getClass());
+        View v = null;
+        if(layoutId!=null){
+            v = inflater.inflate(layoutId.value(),container,false);
+        }else{
+            LogUtils.i(TAG,"layoutId为空,请设置layoutId");
+        }
+        return v;
     }
 
 }
