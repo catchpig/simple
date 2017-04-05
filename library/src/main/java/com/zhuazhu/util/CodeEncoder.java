@@ -14,10 +14,10 @@ import java.util.EnumMap;
 import java.util.Map;
 
 /**
- * 条形码,二维码图片生成工具
+ * 条形码,二维码编码器
  * Created by tao on 2015/10/9.
  */
-public class CodeUtils {
+public class CodeEncoder {
     public static final Map<EncodeHintType, Object> HINTS = new EnumMap<>(EncodeHintType.class);
 
     static {
@@ -26,7 +26,7 @@ public class CodeUtils {
         HINTS.put(EncodeHintType.MARGIN, 0);
     }
 
-    private CodeUtils() {
+    private CodeEncoder() {
     }
 
     /**
@@ -149,7 +149,7 @@ public class CodeUtils {
                     Bitmap.Config.ARGB_8888);
             bitmap.setPixels(pixels, 0, width, 0, 0, width, height);
         }catch (Exception e){
-            LogUtils.e(CodeUtils.class.getName(), e.toString());
+            LogUtils.e(CodeEncoder.class.getName(), e.toString());
         }
         return bitmap;
     }

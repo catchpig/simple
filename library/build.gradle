@@ -2,7 +2,7 @@ apply plugin: 'com.android.library'
 //配置插件
 apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
-version = "0.0.8"       //这个是版本号，必须填写
+version = "0.1.0"       //这个是版本号，必须填写
 android {
     compileSdkVersion 25
     buildToolsVersion '25.0.2'
@@ -12,7 +12,7 @@ android {
         minSdkVersion 15
         targetSdkVersion 25
         versionCode 1
-        versionName "0.0.8"
+        versionName "0.1.0"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
