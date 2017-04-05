@@ -16,7 +16,7 @@ import java.util.Hashtable;
  * 条形码,二维码图片生成工具
  * Created by tao on 2015/10/9.
  */
-public class CodeUtil {
+public class CodeUtils {
     /**
      * 生成二维码
      * @param text
@@ -57,7 +57,7 @@ public class CodeUtil {
             bitmap.setPixels(pixels, 0, w, 0, 0, w, h);
 
         } catch (WriterException e) {
-            Log.e(CodeUtil.class.getName(), e.toString());
+            Log.e(CodeUtils.class.getName(), e.toString());
         }
         return bitmap;
     }
@@ -87,7 +87,7 @@ public class CodeUtil {
                     Bitmap.Config.ARGB_8888);
             bitmap.setPixels(pixels, 0, width, 0, 0, width, height);
         }catch (Exception e){
-            Log.e(CodeUtil.class.getName(), e.toString());
+            Log.e(CodeUtils.class.getName(), e.toString());
         }
         return bitmap;
     }

@@ -8,7 +8,7 @@ import android.media.MediaPlayer;
  * 语音播放工具
  */
 
-public class VoiceUtil {
+public class VoiceUtils {
     /**
      * 播放语音
      * @param context
