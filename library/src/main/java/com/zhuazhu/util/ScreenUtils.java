@@ -35,7 +35,7 @@ public class ScreenUtils {
      * @param context
      * @return (px)
      */
-    public static int getScreenheigt(Context context) {
+    public static int getScreenHeigt(Context context) {
         DisplayMetrics dm = new DisplayMetrics();
         ((Activity) context).getWindowManager().getDefaultDisplay().getMetrics(dm);
         return dm.heightPixels;
