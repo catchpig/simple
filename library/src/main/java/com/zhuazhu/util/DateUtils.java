@@ -12,6 +12,91 @@ import java.util.Date;
 
 public class DateUtils {
     /**
+     * 获取两个日期之间相差的天数
+     * @param startCalendar
+     * @param endDate
+     * @return
+     */
+    public static int gapDays(Calendar startCalendar,Date endDate){
+        startCalendar.set(Calendar.HOUR_OF_DAY, 0);
+        startCalendar.set(Calendar.MINUTE, 0);
+        startCalendar.set(Calendar.SECOND, 0);
+        startCalendar.set(Calendar.MILLISECOND, 0);
+
+        Calendar toCalendar = Calendar.getInstance();
+        toCalendar.setTime(endDate);
+        toCalendar.set(Calendar.HOUR_OF_DAY, 0);
+        toCalendar.set(Calendar.MINUTE, 0);
+        toCalendar.set(Calendar.SECOND, 0);
+        toCalendar.set(Calendar.MILLISECOND, 0);
+
+        return (int) ((toCalendar.getTime().getTime() - startCalendar.getTime()
+                .getTime()) / (1000 * 60 * 60 * 24));
+    }
+    /**
+     * 获取两个日期之间相差的天数
+     * @param startDate
+     * @param endCalendar
+     * @return
+     */
+    public static int gapDays(Date startDate,Calendar endCalendar){
+        Calendar fromCalendar = Calendar.getInstance();
+        fromCalendar.setTime(startDate);
+        fromCalendar.set(Calendar.HOUR_OF_DAY, 0);
+        fromCalendar.set(Calendar.MINUTE, 0);
+        fromCalendar.set(Calendar.SECOND, 0);
+        fromCalendar.set(Calendar.MILLISECOND, 0);
+
+        endCalendar.set(Calendar.HOUR_OF_DAY, 0);
+        endCalendar.set(Calendar.MINUTE, 0);
+        endCalendar.set(Calendar.SECOND, 0);
+        endCalendar.set(Calendar.MILLISECOND, 0);
+        return (int) ((endCalendar.getTime().getTime() - fromCalendar.getTime()
+                .getTime()) / (1000 * 60 * 60 * 24));
+    }
+    /**
+     * 获取两个日期之间相差的天数
+     * @param startCalendar
+     * @param endCalendar
+     * @return
+     */
+    public static int gapDays(Calendar startCalendar,Calendar endCalendar){
+        startCalendar.set(Calendar.HOUR_OF_DAY, 0);
+        startCalendar.set(Calendar.MINUTE, 0);
+        startCalendar.set(Calendar.SECOND, 0);
+        startCalendar.set(Calendar.MILLISECOND, 0);
+
+        endCalendar.set(Calendar.HOUR_OF_DAY, 0);
+        endCalendar.set(Calendar.MINUTE, 0);
+        endCalendar.set(Calendar.SECOND, 0);
+        endCalendar.set(Calendar.MILLISECOND, 0);
+        return (int) ((endCalendar.getTime().getTime() - startCalendar.getTime()
+                .getTime()) / (1000 * 60 * 60 * 24));
+    }
+    /**
+     * 获取两个日期之间相差的天数
+     * @param startDate
+     * @param endDate
+     * @return
+     */
+    public static int gapDays(Date startDate,Date endDate){
+        Calendar fromCalendar = Calendar.getInstance();
+        fromCalendar.setTime(startDate);
+        fromCalendar.set(Calendar.HOUR_OF_DAY, 0);
+        fromCalendar.set(Calendar.MINUTE, 0);
+        fromCalendar.set(Calendar.SECOND, 0);
+        fromCalendar.set(Calendar.MILLISECOND, 0);
+
+        Calendar toCalendar = Calendar.getInstance();
+        toCalendar.setTime(endDate);
+        toCalendar.set(Calendar.HOUR_OF_DAY, 0);
+        toCalendar.set(Calendar.MINUTE, 0);
+        toCalendar.set(Calendar.SECOND, 0);
+        toCalendar.set(Calendar.MILLISECOND, 0);
+
+        return (int) ((toCalendar.getTime().getTime() - fromCalendar.getTime().getTime()) / (1000 * 60 * 60 * 24));
+    }
+    /**
      * 当前日期加几年或者减几年
      * @param date
      * @param year 加或者减的年数
