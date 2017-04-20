@@ -150,7 +150,31 @@ public class Arith {
         }
         return min;
     }
-
+    /**
+     * 数值之间相除法
+     * @param divisor 除数
+     * @param objs 被除数
+     * @return
+     */
+    public static BigDecimal divide(Object divisor,Object... objs){
+        BigDecimal bigDecimal = bigDecimal(divisor);
+        for(Object obj:objs){
+            bigDecimal = bigDecimal.divide(bigDecimal(obj));
+        }
+        return bigDecimal;
+    }
+    /**
+     * 数值之间相乘
+     * @param objs
+     * @return
+     */
+    public static BigDecimal multiply(Object... objs){
+        BigDecimal bigDecimal = new BigDecimal(1);
+        for(Object obj:objs){
+            bigDecimal = bigDecimal.multiply(bigDecimal(obj));
+        }
+        return bigDecimal;
+    }
     /**
      * 数值之间加法
      * @param objs
@@ -165,17 +189,14 @@ public class Arith {
     }
     /**
      * 数值之间减法(按顺序相减)
-     * @param objs
+     * @param subtrahend 减数
+     * @param objs 被减数
      * @return
      */
-    public static BigDecimal sub(Object... objs){
-        BigDecimal bigDecimal = new BigDecimal(0);
-        for (int i=0;i<objs.length;i++){
-            if(i==0){
-                bigDecimal = bigDecimal(objs[i]);
-            }else{
-                bigDecimal = bigDecimal.subtract(bigDecimal(objs[i]));
-            }
+    public static BigDecimal sub(Object subtrahend,Object... objs){
+        BigDecimal bigDecimal = bigDecimal(subtrahend);
+        for (Object obj:objs){
+            bigDecimal = bigDecimal.subtract(bigDecimal(obj));
         }
         return bigDecimal;
     }

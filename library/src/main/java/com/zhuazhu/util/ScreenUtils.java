@@ -30,7 +30,7 @@ public class ScreenUtils {
     }
 
     /**
-     * 获取屏幕宽度
+     * 获取屏幕高度
      *
      * @param context
      * @return (px)
@@ -40,12 +40,26 @@ public class ScreenUtils {
         ((Activity) context).getWindowManager().getDefaultDisplay().getMetrics(dm);
         return dm.heightPixels;
     }
+
+    /**
+     * dp转px
+     * @param context
+     * @param dp
+     * @return
+     */
     public static float dpToPx(Context context, float dp) {
         if (context == null) {
             return -1;
         }
         return dp * context.getResources().getDisplayMetrics().density;
     }
+
+    /**
+     * px转dp
+     * @param context
+     * @param px
+     * @return
+     */
 
     public static float pxToDp(Context context, float px) {
         if (context == null) {
@@ -54,10 +68,22 @@ public class ScreenUtils {
         return px / context.getResources().getDisplayMetrics().density;
     }
 
+    /**
+     * dp转px
+     * @param context
+     * @param dp
+     * @return 返回int类型
+     */
     public static int dpToPxInt(Context context, float dp) {
         return (int)(dpToPx(context, dp) + 0.5f);
     }
 
+    /**
+     * px转dp
+     * @param context
+     * @param px
+     * @return 返回int类型
+     */
     public static int pxToDpCeilInt(Context context, float px) {
         return (int)(pxToDp(context, px) + 0.5f);
     }
