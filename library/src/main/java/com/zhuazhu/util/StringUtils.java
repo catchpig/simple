@@ -211,7 +211,9 @@ public class StringUtils {
      * @return
      */
     public static String format(Object obj,int scale){
-        if(obj instanceof String){
+        if(obj==null){
+            obj = 0;
+        }else if(obj instanceof String){
             if(validateNumber(obj.toString())){
                 obj = new BigDecimal(obj.toString()).doubleValue();
             }else{
