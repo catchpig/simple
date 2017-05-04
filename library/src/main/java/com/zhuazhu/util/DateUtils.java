@@ -219,6 +219,15 @@ public class DateUtils {
     }
 
     /**
+     * 获取今天是几号
+     * @return
+     */
+    public static int day(){
+        Calendar calendar = Calendar.getInstance();
+        return calendar.get(Calendar.DATE);
+    }
+
+    /**
      * 获取日
      * @param date
      * @return
@@ -253,6 +262,14 @@ public class DateUtils {
     }
 
     /**
+     * 获取今天是几月
+     * @return
+     */
+    public static int month(){
+        Calendar calendar = Calendar.getInstance();
+        return calendar.get(Calendar.MONTH)+1;
+    }
+    /**
      * 获取月
      * @param date
      * @return
@@ -286,6 +303,14 @@ public class DateUtils {
         return calendar.get(Calendar.MONTH)+1;
     }
 
+    /**
+     * 获取今天是多少年
+     * @return
+     */
+    public static int year(){
+        Calendar calendar = Calendar.getInstance();
+        return calendar.get(Calendar.YEAR);
+    }
     /**
      * 获取年
      * @param date
