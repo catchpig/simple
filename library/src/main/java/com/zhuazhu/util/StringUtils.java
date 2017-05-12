@@ -86,6 +86,9 @@ public class StringUtils {
             case "99":
                 name = "折扣金额";
                 break;
+            case "31":
+                name = "钱包支付";
+                break;
             default:
                 break;
         }

@@ -1,7 +1,5 @@
 package com.zhuazhu.util;
 
-import android.content.Context;
-
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -13,17 +11,6 @@ import java.net.URLEncoder;
  * Created by tao on 2015/9/30.
  */
 public class CommonUtils {
-
-    /***
-     * 得到Strings.xml 中的stirng
-     *
-     * @param context
-     * @param id
-     * @return
-     */
-    public static String getRString(Context context, int id) {
-        return context.getResources().getText(id).toString();
-    }
 
     /***
      * 对象序列化
