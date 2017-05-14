@@ -10,7 +10,7 @@ import android.view.View;
  * Created by CiferLiao on 2017/3/14.
  */
 
-public class GridEntrust extends SpacesItemDecorationEntrust{
+public class GridEntrust extends SpacesItemDecorationEntrust {
 
     public GridEntrust(int leftRight, int topBottom, int mColor) {
         super(leftRight, topBottom, mColor);
@@ -37,7 +37,8 @@ public class GridEntrust extends SpacesItemDecorationEntrust{
 
             for (int i = 0; i < childCount; i++) {
                 final View child = parent.getChildAt(i);
-                final RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child.getLayoutParams();
+                final RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child
+                        .getLayoutParams();
                 //得到它在总数里面的位置
                 final int position = parent.getChildAdapterPosition(child);
                 //获取它所占有的比重
@@ -45,8 +46,10 @@ public class GridEntrust extends SpacesItemDecorationEntrust{
                 //获取每排的位置
                 final int spanIndex = lookup.getSpanIndex(position, layoutManager.getSpanCount());
                 //将带有颜色的分割线处于中间位置
-                final float centerLeft = (layoutManager.getLeftDecorationWidth(child) + 1 - leftRight) / 2;
-                final float centerTop = (layoutManager.getBottomDecorationHeight(child) + 1 - topBottom) / 2;
+                float centerLeft = (layoutManager.getLeftDecorationWidth(child) + 1 - leftRight)
+                        / 2;
+                float centerTop = (layoutManager.getBottomDecorationHeight(child) + 1 -
+                        topBottom) / 2;
                 //判断是否为第一排
                 boolean isFirst = position + spanSize <= layoutManager.getSpanCount();
                 //画上边的，第一排不需要上边的,只需要在最左边的那项的时候画一次就好
@@ -78,7 +81,8 @@ public class GridEntrust extends SpacesItemDecorationEntrust{
         } else {
             for (int i = 0; i < childCount; i++) {
                 final View child = parent.getChildAt(i);
-                final RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child.getLayoutParams();
+                final RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child
+                        .getLayoutParams();
                 //得到它在总数里面的位置
                 final int position = parent.getChildAdapterPosition(child);
                 //获取它所占有的比重
@@ -86,8 +90,10 @@ public class GridEntrust extends SpacesItemDecorationEntrust{
                 //获取每排的位置
                 final int spanIndex = lookup.getSpanIndex(position, layoutManager.getSpanCount());
                 //将带有颜色的分割线处于中间位置
-                final float centerLeft = (layoutManager.getRightDecorationWidth(child) + 1 - leftRight) / 2;
-                final float centerTop = (layoutManager.getTopDecorationHeight(child) + 1 - topBottom) / 2;
+                final float centerLeft = (layoutManager.getRightDecorationWidth(child) + 1 -
+                        leftRight) / 2;
+                final float centerTop = (layoutManager.getTopDecorationHeight(child) + 1 -
+                        topBottom) / 2;
                 //判断是否为第一列
                 boolean isFirst = position + spanSize <= layoutManager.getSpanCount();
                 //画左边的，第一排不需要左边的,只需要在最上边的那项的时候画一次就好
@@ -120,30 +126,72 @@ public class GridEntrust extends SpacesItemDecorationEntrust{
     }
 
     @Override
-    public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+    public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State
+            state) {
         GridLayoutManager layoutManager = (GridLayoutManager) parent.getLayoutManager();
-        final GridLayoutManager.LayoutParams lp = (GridLayoutManager.LayoutParams) view.getLayoutParams();
+        final GridLayoutManager.LayoutParams lp = (GridLayoutManager.LayoutParams) view
+                .getLayoutParams();
         final int childPosition = parent.getChildAdapterPosition(view);
         final int spanCount = layoutManager.getSpanCount();
-
+        int spanSize = lp.getSpanSize();
+        int spanSizeIndex = lp.getSpanIndex();
         if (layoutManager.getOrientation() == GridLayoutManager.VERTICAL) {
-            if (childPosition + lp.getSpanSize() - 1 < spanCount) {//第一排的需要上面
+            if (childPosition + spanSize - 1 < spanCount) {//第一排的需要上面
                 outRect.top = topBottom;
             }
-            if (lp.getSpanIndex() + lp.getSpanSize() == spanCount) {//最边上的需要右边,这里需要考虑到一个合并项的问题
-                outRect.right = leftRight;
+            if(spanCount==2){
+                if (spanSizeIndex + spanSize == spanCount) {//最边上的需要右边,这里需要考虑到一个合并项的问题
+                    outRect.left = leftRight / 2;
+                    outRect.right = leftRight;
+                } else if (spanSizeIndex + spanSize - 1 == 0) {//最左边
+                    outRect.left = leftRight;
+                    outRect.right = leftRight / 2;
+                } else {
+                    outRect.left = leftRight / 2;
+                    outRect.right = leftRight / 2;
+                }
+            }else if(spanCount>2){
+                if (spanSizeIndex + spanSize == spanCount) {//最边上的需要右边,这里需要考虑到一个合并项的问题
+                    outRect.left = leftRight / 3;
+                    outRect.right = leftRight;
+                } else if (spanSizeIndex + spanSize - 1 == 0) {//最左边
+                    outRect.left = leftRight;
+                    outRect.right = leftRight / 3;
+                } else {
+                    outRect.left = leftRight *2/ 3;
+                    outRect.right = leftRight *2/ 3;
+                }
             }
             outRect.bottom = topBottom;
-            outRect.left = leftRight;
+
         } else {
-            if (childPosition + lp.getSpanSize() - 1 < spanCount) {//第一排的需要left
+            if (childPosition + spanSize - 1 < spanCount) {//第一排的需要left
                 outRect.left = leftRight;
             }
-            if (lp.getSpanIndex() + lp.getSpanSize() == spanCount) {//最边上的需要bottom
-                outRect.bottom = topBottom;
+            if(spanCount==2){
+                if (spanSizeIndex + spanSize == spanCount) {//最边上的需要bottom
+                    outRect.bottom = topBottom;
+                    outRect.top = topBottom/2;
+                } else if (spanSizeIndex + spanSize - 1 == 0) {//最上边
+                    outRect.top = topBottom;
+                    outRect.bottom = topBottom/2;
+                }else {
+                    outRect.top = topBottom/2;
+                    outRect.bottom = topBottom/2;
+                }
+            } else if (spanCount>2){
+                if (spanSizeIndex + spanSize == spanCount) {//最边上的需要bottom
+                    outRect.bottom = topBottom;
+                    outRect.top = topBottom/3;
+                } else if (spanSizeIndex + spanSize - 1 == 0) {//最上边
+                    outRect.top = topBottom;
+                    outRect.bottom = topBottom/3;
+                }else {
+                    outRect.top = topBottom*2/3;
+                    outRect.bottom = topBottom*2/3;
+                }
             }
             outRect.right = leftRight;
-            outRect.top = topBottom;
         }
     }
 
