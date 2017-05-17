@@ -445,7 +445,7 @@ public class FileUtils {
      * @return
      */
     public static String getFileExtension(String filePath) {
-        if (StringUtils.isBlank(filePath)) {
+        if (StringUtils.isEmpty(filePath)) {
             return filePath;
         }
 
@@ -502,7 +502,7 @@ public class FileUtils {
      * @return
      */
     public static boolean isFileExist(String filePath) {
-        if (StringUtils.isBlank(filePath)) {
+        if (StringUtils.isEmpty(filePath)) {
             return false;
         }
 
@@ -517,7 +517,7 @@ public class FileUtils {
      * @return
      */
     public static boolean isFolderExist(String directoryPath) {
-        if (StringUtils.isBlank(directoryPath)) {
+        if (StringUtils.isEmpty(directoryPath)) {
             return false;
         }
 
@@ -537,7 +537,7 @@ public class FileUtils {
      * @return
      */
     public static boolean deleteFile(String path) {
-        if (StringUtils.isBlank(path)) {
+        if (StringUtils.isEmpty(path)) {
             return true;
         }
 
@@ -572,7 +572,7 @@ public class FileUtils {
      * @return returns the length of this file in bytes. returns -1 if the file does not exist.
      */
     public static long getFileSize(String path) {
-        if (StringUtils.isBlank(path)) {
+        if (StringUtils.isEmpty(path)) {
             return -1;
         }
 
