@@ -140,6 +140,14 @@ public class StringUtils {
     }
 
     /**
+     * 验证不是车牌号码
+     * @param plate
+     * @return
+     */
+    public static boolean validateNotPlateNumber(String plate) {
+        return !validatePlateNumber(plate);
+    }
+    /**
      * 验证车牌号
      *
      * @param plate
@@ -152,12 +160,29 @@ public class StringUtils {
     }
 
     /**
+     * 验证不是数字
+     * @param number
+     * @return
+     */
+    public static boolean validateNotNumber(String number){
+        return validateNumber(number);
+    }
+    /**
      * 验证数字
      * @param number
      * @return
      */
     public static boolean validateNumber(String number){
        return number.matches("^[-+]?\\d+(.)?\\d+$");
+    }
+
+    /**
+     * 验证不是身份证号
+     * @param identity
+     * @return
+     */
+    public static boolean validateNotIdentity(String identity){
+        return !validateIdentity(identity);
     }
 
     /**
@@ -239,26 +264,6 @@ public class StringUtils {
     public static String money(Object obj){
         return format(obj,2);
     }
-
-    /**
-     * is null or its length is 0 or it is made by space
-     *
-     * <pre>
-     * isBlank(null) = true;
-     * isBlank(&quot;&quot;) = true;
-     * isBlank(&quot;  &quot;) = true;
-     * isBlank(&quot;a&quot;) = false;
-     * isBlank(&quot;a &quot;) = false;
-     * isBlank(&quot; a&quot;) = false;
-     * isBlank(&quot;a b&quot;) = false;
-     * </pre>
-     *
-     * @param str
-     * @return if string is null or its size is 0 or it is made by space, return true, else return false.
-     */
-    public static boolean isBlank(String str) {
-        return (str == null || str.trim().length() == 0);
-    }
     /**
      * 验证字符串是否为空
      * @param strs
@@ -282,7 +287,7 @@ public class StringUtils {
      */
     public static boolean isEmpty(String str) {
         boolean flag = true;
-        flag = str == null || "".equals(str.trim());
+        flag = (str == null || "".equals(str.trim()));
         return flag;
     }
 
@@ -296,6 +301,14 @@ public class StringUtils {
         return !isEmpty(str);
     }
 
+    /**
+     * 验证不是手机号码
+     * @param phone
+     * @return
+     */
+    public static boolean vilidateNotPhone(String phone){
+        return !validatePhone(phone);
+    }
     /**
      * 验证手机号
      *

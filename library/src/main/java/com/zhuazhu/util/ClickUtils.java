@@ -30,4 +30,18 @@ public class ClickUtils {
         lastClickTime = time;
         return false;
     }
+
+    /**
+     * 是否是快速点击
+     * @param sleep 睡眠时间
+     * @return
+     */
+    public synchronized static boolean isFastClick(long sleep){
+        long time = System.currentTimeMillis();
+        if ( time - lastClickTime < sleep) {
+            return true;
+        }
+        lastClickTime = time;
+        return false;
+    }
 }
