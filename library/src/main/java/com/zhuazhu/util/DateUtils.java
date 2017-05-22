@@ -42,10 +42,11 @@ public class DateUtils {
      * @return
      */
     public static int gapDays(Calendar startCalendar,Date endDate){
-        startCalendar.set(Calendar.HOUR_OF_DAY, 0);
-        startCalendar.set(Calendar.MINUTE, 0);
-        startCalendar.set(Calendar.SECOND, 0);
-        startCalendar.set(Calendar.MILLISECOND, 0);
+        Calendar sc = startCalendar;
+        sc.set(Calendar.HOUR_OF_DAY, 0);
+        sc.set(Calendar.MINUTE, 0);
+        sc.set(Calendar.SECOND, 0);
+        sc.set(Calendar.MILLISECOND, 0);
 
         Calendar toCalendar = Calendar.getInstance();
         toCalendar.setTime(endDate);
@@ -71,11 +72,12 @@ public class DateUtils {
         fromCalendar.set(Calendar.SECOND, 0);
         fromCalendar.set(Calendar.MILLISECOND, 0);
 
-        endCalendar.set(Calendar.HOUR_OF_DAY, 0);
-        endCalendar.set(Calendar.MINUTE, 0);
-        endCalendar.set(Calendar.SECOND, 0);
-        endCalendar.set(Calendar.MILLISECOND, 0);
-        return (int) ((endCalendar.getTime().getTime() - fromCalendar.getTime()
+        Calendar ec = endCalendar;
+        ec.set(Calendar.HOUR_OF_DAY, 0);
+        ec.set(Calendar.MINUTE, 0);
+        ec.set(Calendar.SECOND, 0);
+        ec.set(Calendar.MILLISECOND, 0);
+        return (int) ((ec.getTime().getTime() - fromCalendar.getTime()
                 .getTime()) / (1000 * 60 * 60 * 24));
     }
     /**
@@ -85,16 +87,18 @@ public class DateUtils {
      * @return
      */
     public static int gapDays(Calendar startCalendar,Calendar endCalendar){
-        startCalendar.set(Calendar.HOUR_OF_DAY, 0);
-        startCalendar.set(Calendar.MINUTE, 0);
-        startCalendar.set(Calendar.SECOND, 0);
-        startCalendar.set(Calendar.MILLISECOND, 0);
+        Calendar sc = startCalendar;
+        sc.set(Calendar.HOUR_OF_DAY, 0);
+        sc.set(Calendar.MINUTE, 0);
+        sc.set(Calendar.SECOND, 0);
+        sc.set(Calendar.MILLISECOND, 0);
 
-        endCalendar.set(Calendar.HOUR_OF_DAY, 0);
-        endCalendar.set(Calendar.MINUTE, 0);
-        endCalendar.set(Calendar.SECOND, 0);
-        endCalendar.set(Calendar.MILLISECOND, 0);
-        return (int) ((endCalendar.getTime().getTime() - startCalendar.getTime()
+        Calendar ec = endCalendar;
+        ec.set(Calendar.HOUR_OF_DAY, 0);
+        ec.set(Calendar.MINUTE, 0);
+        ec.set(Calendar.SECOND, 0);
+        ec.set(Calendar.MILLISECOND, 0);
+        return (int) ((ec.getTime().getTime() - sc.getTime()
                 .getTime()) / (1000 * 60 * 60 * 24));
     }
     /**
@@ -138,8 +142,9 @@ public class DateUtils {
      * @return
      */
     public static Date calculateYear(Calendar calendar,int year){
-        calendar.add(Calendar.YEAR,year);
-        return calendar.getTime();
+        Calendar cl = calendar;
+        cl.add(Calendar.YEAR,year);
+        return cl.getTime();
     }
     /**
      * 当前日期加几月或者减几月
@@ -159,8 +164,9 @@ public class DateUtils {
      * @return
      */
     public static Date calculateMonth(Calendar calendar,int month){
-        calendar.add(Calendar.MONTH,month);
-        return calendar.getTime();
+        Calendar cl = calendar;
+        cl.add(Calendar.MONTH,month);
+        return cl.getTime();
     }
     /**
      * 当前日期加几天或者减几天
@@ -180,8 +186,9 @@ public class DateUtils {
      * @return
      */
     public static Date calculateDay(Calendar calendar,int day){
-        calendar.add(Calendar.DATE,day);
-        return calendar.getTime();
+        Calendar cl = calendar;
+        cl.add(Calendar.DATE,day);
+        return cl.getTime();
     }
 
     /**
