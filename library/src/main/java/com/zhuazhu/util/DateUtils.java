@@ -14,115 +14,49 @@ import java.util.Date;
 public class DateUtils {
     /**
      * 获取两个日期之间相差的天数
-     * @param startTimeMillis
-     * @param endTimeMillis
+     * @param time1
+     * @param time2
      * @return
      */
-    public static int gapDays(long startTimeMillis,long endTimeMillis){
-        Calendar fromCalendar = Calendar.getInstance();
-        fromCalendar.setTimeInMillis(startTimeMillis);
-        fromCalendar.set(Calendar.HOUR_OF_DAY, 0);
-        fromCalendar.set(Calendar.MINUTE, 0);
-        fromCalendar.set(Calendar.SECOND, 0);
-        fromCalendar.set(Calendar.MILLISECOND, 0);
-
-        Calendar toCalendar = Calendar.getInstance();
-        toCalendar.setTimeInMillis(endTimeMillis);
-        toCalendar.set(Calendar.HOUR_OF_DAY, 0);
-        toCalendar.set(Calendar.MINUTE, 0);
-        toCalendar.set(Calendar.SECOND, 0);
-        toCalendar.set(Calendar.MILLISECOND, 0);
-
-        return (int) ((toCalendar.getTime().getTime() - fromCalendar.getTime().getTime()) / (1000 * 60 * 60 * 24));
+    public static int gapDays(long time1,long time2){
+        int day = (int) ((time1-time2)/(1000 * 60 * 60 * 24));
+        return Math.abs(day);
     }
     /**
      * 获取两个日期之间相差的天数
-     * @param startCalendar
-     * @param endDate
+     * @param calendar
+     * @param date
      * @return
      */
-    public static int gapDays(Calendar startCalendar,Date endDate){
-        Calendar sc = startCalendar;
-        sc.set(Calendar.HOUR_OF_DAY, 0);
-        sc.set(Calendar.MINUTE, 0);
-        sc.set(Calendar.SECOND, 0);
-        sc.set(Calendar.MILLISECOND, 0);
-
-        Calendar toCalendar = Calendar.getInstance();
-        toCalendar.setTime(endDate);
-        toCalendar.set(Calendar.HOUR_OF_DAY, 0);
-        toCalendar.set(Calendar.MINUTE, 0);
-        toCalendar.set(Calendar.SECOND, 0);
-        toCalendar.set(Calendar.MILLISECOND, 0);
-
-        return (int) ((toCalendar.getTime().getTime() - startCalendar.getTime()
-                .getTime()) / (1000 * 60 * 60 * 24));
+    public static int gapDays(Calendar calendar,Date date){
+        return gapDays(date,calendar);
     }
     /**
      * 获取两个日期之间相差的天数
-     * @param startDate
-     * @param endCalendar
+     * @param date
+     * @param calendar
      * @return
      */
-    public static int gapDays(Date startDate,Calendar endCalendar){
-        Calendar fromCalendar = Calendar.getInstance();
-        fromCalendar.setTime(startDate);
-        fromCalendar.set(Calendar.HOUR_OF_DAY, 0);
-        fromCalendar.set(Calendar.MINUTE, 0);
-        fromCalendar.set(Calendar.SECOND, 0);
-        fromCalendar.set(Calendar.MILLISECOND, 0);
-
-        Calendar ec = endCalendar;
-        ec.set(Calendar.HOUR_OF_DAY, 0);
-        ec.set(Calendar.MINUTE, 0);
-        ec.set(Calendar.SECOND, 0);
-        ec.set(Calendar.MILLISECOND, 0);
-        return (int) ((ec.getTime().getTime() - fromCalendar.getTime()
-                .getTime()) / (1000 * 60 * 60 * 24));
+    public static int gapDays(Date date,Calendar calendar){
+        return gapDays(calendar.getTime() , date);
     }
     /**
      * 获取两个日期之间相差的天数
-     * @param startCalendar
-     * @param endCalendar
+     * @param calendar1
+     * @param calendar2
      * @return
      */
-    public static int gapDays(Calendar startCalendar,Calendar endCalendar){
-        Calendar sc = startCalendar;
-        sc.set(Calendar.HOUR_OF_DAY, 0);
-        sc.set(Calendar.MINUTE, 0);
-        sc.set(Calendar.SECOND, 0);
-        sc.set(Calendar.MILLISECOND, 0);
-
-        Calendar ec = endCalendar;
-        ec.set(Calendar.HOUR_OF_DAY, 0);
-        ec.set(Calendar.MINUTE, 0);
-        ec.set(Calendar.SECOND, 0);
-        ec.set(Calendar.MILLISECOND, 0);
-        return (int) ((ec.getTime().getTime() - sc.getTime()
-                .getTime()) / (1000 * 60 * 60 * 24));
+    public static int gapDays(Calendar calendar1,Calendar calendar2){
+        return gapDays(calendar1.getTime(),calendar2.getTime());
     }
     /**
      * 获取两个日期之间相差的天数
-     * @param startDate
-     * @param endDate
+     * @param date1
+     * @param date2
      * @return
      */
-    public static int gapDays(Date startDate,Date endDate){
-        Calendar fromCalendar = Calendar.getInstance();
-        fromCalendar.setTime(startDate);
-        fromCalendar.set(Calendar.HOUR_OF_DAY, 0);
-        fromCalendar.set(Calendar.MINUTE, 0);
-        fromCalendar.set(Calendar.SECOND, 0);
-        fromCalendar.set(Calendar.MILLISECOND, 0);
-
-        Calendar toCalendar = Calendar.getInstance();
-        toCalendar.setTime(endDate);
-        toCalendar.set(Calendar.HOUR_OF_DAY, 0);
-        toCalendar.set(Calendar.MINUTE, 0);
-        toCalendar.set(Calendar.SECOND, 0);
-        toCalendar.set(Calendar.MILLISECOND, 0);
-
-        return (int) ((toCalendar.getTime().getTime() - fromCalendar.getTime().getTime()) / (1000 * 60 * 60 * 24));
+    public static int gapDays(Date date1,Date date2){
+        return gapDays(date1.getTime(),date2.getTime());
     }
     /**
      * 当前日期加几年或者减几年
@@ -352,16 +286,7 @@ public class DateUtils {
     public static int year(Calendar calendar){
         return calendar.get(Calendar.YEAR);
     }
-    /**
-     * 日期转换为字符串
-     * @param date 日期
-     * @param pattern 字符串日期格式
-     * @return
-     */
-    public static String dateToString(Date date,String pattern){
-        DateFormat df = new SimpleDateFormat(pattern);
-        return df.format(date);
-    }
+
 
     /**
      * 字符串转换为日期
@@ -392,6 +317,16 @@ public class DateUtils {
         } catch (ParseException e) {
             return null;
         }
+    }
+    /**
+     * 日期转换为字符串
+     * @param date 日期
+     * @param pattern 字符串日期格式
+     * @return
+     */
+    public static String string(Date date,String pattern){
+        DateFormat df = new SimpleDateFormat(pattern);
+        return df.format(date);
     }
 
     /**
@@ -448,32 +383,17 @@ public class DateUtils {
             return 0;
         }
     }
-    /**
-     *  时间毫秒数转日期字符串
-     * @param date 日期毫秒数
-     * @param pattern 日期格式
-     * @return
-     */
-    public static String longToString(long date,String pattern){
-        DateFormat df = new SimpleDateFormat(pattern);
-        return df.format(new Date(date));
-    }
-    /**
-     *  日期转时间毫秒数
-     * @param date 日期
-     * @param pattern 日期格式
-     * @return
-     */
-    public static long dateToLong(Date date,String pattern){
-        DateFormat df = new SimpleDateFormat(pattern);
-        try {
-            String d = df.format(date);
-            return df.parse(d).getTime();
-        } catch (ParseException e) {
-            return 0;
-        }
-    }
 
+    /**
+     * Date转Calendar
+     * @param date
+     * @return
+     */
+    public static Calendar dateToCalendar(Date date){
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        return calendar;
+    }
     /**
      * 日期转时间毫秒数
      * @param date 日期
