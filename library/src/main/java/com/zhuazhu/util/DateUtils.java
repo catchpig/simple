@@ -395,6 +395,36 @@ public class DateUtils {
         return calendar;
     }
     /**
+     *  日期转时间毫秒数
+     * @param calendar 日期
+     * @param pattern 日期格式
+     * @return
+     */
+    public static long dateToLong(Calendar calendar,String pattern){
+        DateFormat df = new SimpleDateFormat(pattern);
+        try {
+            String d = df.format(calendar.getTime());
+            return df.parse(d).getTime();
+        } catch (ParseException e) {
+            return 0;
+        }
+    }
+    /**
+     *  日期转时间毫秒数
+     * @param date 日期
+     * @param pattern 日期格式
+     * @return
+     */
+    public static long dateToLong(Date date,String pattern){
+        DateFormat df = new SimpleDateFormat(pattern);
+        try {
+            String d = df.format(date);
+            return df.parse(d).getTime();
+        } catch (ParseException e) {
+            return 0;
+        }
+    }
+    /**
      * 日期转时间毫秒数
      * @param date 日期
      * @return
