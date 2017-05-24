@@ -54,6 +54,16 @@ public class ListUtils {
     }
 
     /**
+     * 是否不为空
+     * @param sourceList
+     * @param <V>
+     * @return
+     */
+    public static <V> boolean isNotEmpty(List<V> sourceList){
+        return !isEmpty(sourceList);
+    }
+
+    /**
      * compare two list
      * 
      * <pre>

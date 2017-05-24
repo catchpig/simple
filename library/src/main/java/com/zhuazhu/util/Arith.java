@@ -9,6 +9,14 @@ import java.math.BigInteger;
  */
 public class Arith {
     /**
+     * 截取两位小数,多余的小数直接舍弃
+     * @param bigDecimal
+     * @return
+     */
+    public static double scale(BigDecimal bigDecimal){
+        return bigDecimal.setScale(2,BigDecimal.ROUND_DOWN).doubleValue();
+    }
+    /**
      * 取最大值
      * @param lgs
      * @return 返回long中最大的值

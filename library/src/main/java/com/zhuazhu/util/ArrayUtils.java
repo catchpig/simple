@@ -36,6 +36,16 @@ public class ArrayUtils {
     }
 
     /**
+     * 是否不为空
+     * @param sourceArray
+     * @param <V>
+     * @return
+     */
+    public static <V> boolean isNotEmpty(V[] sourceArray) {
+        return !isEmpty(sourceArray);
+    }
+
+    /**
      * get last element of the target element, before the first one that match the target element front to back
      * <ul>
      * <li>if array is empty, return defaultValue</li>
