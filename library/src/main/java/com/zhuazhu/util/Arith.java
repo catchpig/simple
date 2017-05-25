@@ -167,7 +167,7 @@ public class Arith {
     public static BigDecimal divide(Object divisor,Object... objs){
         BigDecimal bigDecimal = bigDecimal(divisor);
         for(Object obj:objs){
-            bigDecimal = bigDecimal.divide(bigDecimal(obj));
+            bigDecimal = bigDecimal.divide(bigDecimal(obj),20,BigDecimal.ROUND_DOWN);
         }
         return bigDecimal;
     }
@@ -239,6 +239,8 @@ public class Arith {
             bigDecimal = new BigDecimal((long)obj);
         }else if(obj instanceof BigInteger){
             bigDecimal = new BigDecimal((BigInteger) obj);
+        }else if(obj instanceof  BigDecimal){
+            bigDecimal = (BigDecimal) obj;
         }
         return bigDecimal;
     }

@@ -14,7 +14,7 @@ import android.widget.EditText;
 
 public class EditUtil {
     /**
-     * 设置数据库只能输入价格时只能输入两位小数
+     * 设置输入框只能输入价格时只能输入两位小数
      * @param editText
      */
     public static void setPricePoint(final EditText editText) {
