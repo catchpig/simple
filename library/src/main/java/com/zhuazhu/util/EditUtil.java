@@ -62,4 +62,74 @@ public class EditUtil {
         });
 
     }
+
+    /**
+     * 格式化卡号四位间隔
+     * @param editText
+     */
+    public static void formatCard(final EditText editText){
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s == null) {
+                    return;
+                }
+                //判断是否是在中间输入，需要重新计算
+                boolean isMiddle = (start + count) < (s.length());
+                //在末尾输入时，是否需要加入空格
+                boolean isNeedSpace = false;
+                if (!isMiddle && s.length() > 0 && s.length() % 5 == 0) {
+                    isNeedSpace = true;
+                }
+                if (isMiddle || isNeedSpace) {
+                    String newStr = s.toString();
+                    newStr = newStr.replace(" ", "");
+                    StringBuilder sb = new StringBuilder();
+                    for (int i = 0; i < newStr.length(); i += 4) {
+                        if (i > 0) {
+                            sb.append(" ");
+                        }
+                        if (i + 4 <= newStr.length()) {
+                            sb.append(newStr.substring(i, i + 4));
+                        } else {
+                            sb.append(newStr.substring(i, newStr.length()));
+                        }
+                    }
+                    editText.setText(sb);
+                    //如果是在末尾的话,或者加入的字符个数大于零的话（输入或者粘贴）
+                    if (!isMiddle || count > 1) {
+                        editText.setSelection(sb.length());
+                    } else if (isMiddle) {
+                        //如果是删除
+                        if (count == 0) {
+                            //如果删除时，光标停留在空格的前面，光标则要往前移一位
+                            if ((start - before + 1) % 5 == 0) {
+                                editText.setSelection((start - before) > 0 ? start - before : 0);
+                            } else {
+                                editText.setSelection((start - before + 1) > sb.length() ? sb.length() : (start - before + 1));
+                            }
+                        }
+                        //如果是增加
+                        else {
+                            if ((start - before + count) % 5 == 0) {
+                                editText.setSelection((start + count - before + 1) < sb.length() ? (start + count - before + 1) : sb.length());
+                            } else {
+                                editText.setSelection(start + count - before);
+                            }
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+    }
 }
