@@ -11,117 +11,168 @@ import android.view.View;
  */
 
 public class GridEntrust extends SpacesItemDecorationEntrust {
+    /**
+     * 最外层是否需要分割线
+     */
+    private boolean outermostBorder;
 
-    public GridEntrust(int leftRight, int topBottom, int mColor) {
+    public GridEntrust(int leftRight, int topBottom, int mColor, boolean outermostBorder) {
         super(leftRight, topBottom, mColor);
+        this.outermostBorder = outermostBorder;
     }
 
     @Override
     public void onDraw(Canvas c, RecyclerView parent, RecyclerView.State state) {
         final GridLayoutManager layoutManager = (GridLayoutManager) parent.getLayoutManager();
-        final GridLayoutManager.SpanSizeLookup lookup = layoutManager.getSpanSizeLookup();
-
-        if (mDivider == null || layoutManager.getChildCount() == 0) {
+        final int count = parent.getAdapter().getItemCount();
+        if (mDivider == null || count == 0) {
             return;
         }
-        //判断总的数量是否可以整除
+        if (layoutManager.getOrientation() == GridLayoutManager.VERTICAL) {
+            if(outermostBorder){
+                drawVerticalOutlLine(c,parent);
+            }else{
+                drawVertical(c, parent);
+            }
+        } else {
+            if(outermostBorder){
+                drawHorizontalOutLine(c,parent);
+            }else{
+                drawHorizontal(c, parent);
+            }
+        }
+    }
+
+    private void drawVertical(Canvas c, RecyclerView parent) {
+        final GridLayoutManager layoutManager = (GridLayoutManager) parent.getLayoutManager();
+        final int count = parent.getChildCount();
+        int spanCount = layoutManager.getSpanCount();
+        //总行数
+        int rows = count / spanCount;
+        if (count % spanCount != 0) {
+            rows += 1;
+        }
+        int left;
+        int right;
+        int top;
+        int bottom;
+        for (int i = 0; i < count; i++) {
+            final View child = parent.getChildAt(i);
+            RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child.getLayoutParams();
+            int position = parent.getChildLayoutPosition(child);
+            //所在行数
+            int row = (position + 1) / spanCount;
+            if ((position + 1) % spanCount != 0) {
+                row += 1;
+            }
+            top = child.getTop() - params.topMargin;
+            left = child.getLeft() - params.rightMargin;
+            right = child.getRight()+params.rightMargin + leftRight;
+            //最后一行
+            if(row==rows){
+                bottom = child.getBottom() + params.bottomMargin;
+            }else{
+                bottom = child.getBottom() + params.bottomMargin+topBottom;
+            }
+            mDivider.setBounds(left, top, right, bottom);
+            mDivider.draw(c);
+        }
+    }
+    private void drawVerticalOutlLine(Canvas c, RecyclerView parent) {
+        final GridLayoutManager layoutManager = (GridLayoutManager) parent.getLayoutManager();
+        final int count = parent.getChildCount();
+        int spanCount = layoutManager.getSpanCount();
+        int left;
+        int right;
+        int top;
+        int bottom;
+        for (int i = 0; i < count; i++) {
+            final View child = parent.getChildAt(i);
+            RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child.getLayoutParams();
+            int position = parent.getChildLayoutPosition(child);
+            //所在行数
+            int row = (position + 1) / spanCount;
+            if ((position + 1) % spanCount != 0) {
+                row += 1;
+            }
+            //第一行
+            if(row==1){
+                top = child.getTop() - params.topMargin-topBottom;
+            }else{
+                top = child.getTop() - params.topMargin;
+            }
+            left = child.getLeft() - params.rightMargin-leftRight;
+            right = child.getRight()+params.rightMargin + leftRight;
+            bottom = child.getBottom() + params.bottomMargin+topBottom;
+            mDivider.setBounds(left, top, right, bottom);
+            mDivider.draw(c);
+        }
+    }
+
+    private void drawHorizontal(Canvas c, RecyclerView parent) {
+        final GridLayoutManager layoutManager = (GridLayoutManager) parent.getLayoutManager();
+        final int count = parent.getChildCount();
+        int spanCount = layoutManager.getSpanCount();
+        //总列数
+        int columns = count / spanCount;
+        if (count % spanCount != 0) {
+            columns += 1;
+        }
+        int left;
+        int right;
+        int top;
+        int bottom;
+        for (int i = 0; i < count; i++) {
+            final View child = parent.getChildAt(i);
+            RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child.getLayoutParams();
+            int position = parent.getChildLayoutPosition(child);
+            //所在列数
+            int column = (position + 1) / spanCount;
+            if ((position + 1) % spanCount != 0) {
+                column += 1;
+            }
+            top = child.getTop() - params.topMargin-leftRight;
+            left = child.getLeft() - params.rightMargin;
+            bottom = child.getBottom() + params.bottomMargin+topBottom;
+            //最后一列
+            if(column==columns){
+                right = child.getRight()+params.rightMargin;
+            }else{
+                right = child.getRight()+params.rightMargin + leftRight;
+            }
+            mDivider.setBounds(left, top, right, bottom);
+            mDivider.draw(c);
+        }
+    }
+    private void drawHorizontalOutLine(Canvas c, RecyclerView parent) {
+        final GridLayoutManager layoutManager = (GridLayoutManager) parent.getLayoutManager();
+        final int count = parent.getChildCount();
         int spanCount = layoutManager.getSpanCount();
 
         int left;
         int right;
         int top;
         int bottom;
-
-        final int childCount = parent.getChildCount();
-        if (layoutManager.getOrientation() == GridLayoutManager.VERTICAL) {
-
-            for (int i = 0; i < childCount; i++) {
-                final View child = parent.getChildAt(i);
-                final RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child
-                        .getLayoutParams();
-                //得到它在总数里面的位置
-                final int position = parent.getChildAdapterPosition(child);
-                //获取它所占有的比重
-                final int spanSize = lookup.getSpanSize(position);
-                //获取每排的位置
-                final int spanIndex = lookup.getSpanIndex(position, layoutManager.getSpanCount());
-                //将带有颜色的分割线处于中间位置
-                float centerLeft = (layoutManager.getLeftDecorationWidth(child) + 1 - leftRight)
-                        / 2;
-                float centerTop = (layoutManager.getBottomDecorationHeight(child) + 1 -
-                        topBottom) / 2;
-                //判断是否为第一排
-                boolean isFirst = position + spanSize <= layoutManager.getSpanCount();
-                //画上边的，第一排不需要上边的,只需要在最左边的那项的时候画一次就好
-                if (!isFirst && spanIndex == 0) {
-                    left = layoutManager.getLeftDecorationWidth(child);
-                    right = parent.getWidth() - layoutManager.getLeftDecorationWidth(child);
-
-                    top = (int) (child.getTop() - centerTop) - topBottom;
-                    bottom = top + topBottom;
-                    mDivider.setBounds(left, top, right, bottom);
-                    mDivider.draw(c);
-                }
-                //最右边的一排不需要右边的
-                boolean isRight = spanIndex + spanSize == spanCount;
-                if (!isRight) {
-                    //计算右边的
-                    left = (int) (child.getRight() + centerLeft);
-                    right = left + leftRight;
-                    top = child.getTop();
-
-                    if (position + spanSize - 1 >= spanCount) {
-                        top -= centerTop;
-                    }
-                    bottom = (int) (child.getBottom() + centerTop);
-                    mDivider.setBounds(left, top, right, bottom);
-                    mDivider.draw(c);
-                }
+        for (int i = 0; i < count; i++) {
+            final View child = parent.getChildAt(i);
+            RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child.getLayoutParams();
+            int position = parent.getChildLayoutPosition(child);
+            //所在列数
+            int column = (position + 1) / spanCount;
+            if ((position + 1) % spanCount != 0) {
+                column += 1;
             }
-        } else {
-            for (int i = 0; i < childCount; i++) {
-                final View child = parent.getChildAt(i);
-                final RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child
-                        .getLayoutParams();
-                //得到它在总数里面的位置
-                final int position = parent.getChildAdapterPosition(child);
-                //获取它所占有的比重
-                final int spanSize = lookup.getSpanSize(position);
-                //获取每排的位置
-                final int spanIndex = lookup.getSpanIndex(position, layoutManager.getSpanCount());
-                //将带有颜色的分割线处于中间位置
-                final float centerLeft = (layoutManager.getRightDecorationWidth(child) + 1 -
-                        leftRight) / 2;
-                final float centerTop = (layoutManager.getTopDecorationHeight(child) + 1 -
-                        topBottom) / 2;
-                //判断是否为第一列
-                boolean isFirst = position + spanSize <= layoutManager.getSpanCount();
-                //画左边的，第一排不需要左边的,只需要在最上边的那项的时候画一次就好
-                if (!isFirst && spanIndex == 0) {
-                    left = (int) (child.getLeft() - centerLeft) - leftRight;
-                    right = left + leftRight;
-
-                    top = layoutManager.getRightDecorationWidth(child);
-                    bottom = parent.getHeight() - layoutManager.getTopDecorationHeight(child);
-                    mDivider.setBounds(left, top, right, bottom);
-                    mDivider.draw(c);
-                }
-                //最下的一排不需要下边的
-                boolean isRight = spanIndex + spanSize == spanCount;
-                if (!isRight) {
-                    //计算右边的
-                    left = child.getLeft();
-                    if (position + spanSize - 1 >= spanCount) {
-                        left -= centerLeft;
-                    }
-                    right = (int) (child.getRight() + centerTop);
-
-                    top = (int) (child.getBottom() + centerLeft);
-                    bottom = top + leftRight;
-                    mDivider.setBounds(left, top, right, bottom);
-                    mDivider.draw(c);
-                }
+            top = child.getTop() - params.topMargin-leftRight;
+            right = child.getRight()+params.rightMargin + leftRight;
+            bottom = child.getBottom() + params.bottomMargin+topBottom;
+            //第一列
+            if(column==1){
+                left = child.getLeft() - params.rightMargin-leftRight;
+            }else{
+                left = child.getLeft() - params.rightMargin;
             }
+            mDivider.setBounds(left, top, right, bottom);
+            mDivider.draw(c);
         }
     }
 
@@ -129,70 +180,278 @@ public class GridEntrust extends SpacesItemDecorationEntrust {
     public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State
             state) {
         GridLayoutManager layoutManager = (GridLayoutManager) parent.getLayoutManager();
-        final GridLayoutManager.LayoutParams lp = (GridLayoutManager.LayoutParams) view
-                .getLayoutParams();
-        final int childPosition = parent.getChildAdapterPosition(view);
-        final int spanCount = layoutManager.getSpanCount();
-        int spanSize = lp.getSpanSize();
-        int spanSizeIndex = lp.getSpanIndex();
         if (layoutManager.getOrientation() == GridLayoutManager.VERTICAL) {
-            if (childPosition + spanSize - 1 < spanCount) {//第一排的需要上面
-                outRect.top = topBottom;
+            if (outermostBorder) {
+                offsetsVerticalOutLine(outRect, view, parent);
+            } else {
+                offsetsVertical(outRect, view, parent);
             }
-            if(spanCount==2){
-                if (spanSizeIndex + spanSize == spanCount) {//最边上的需要右边,这里需要考虑到一个合并项的问题
-                    outRect.left = leftRight / 2;
-                    outRect.right = leftRight;
-                } else if (spanSizeIndex + spanSize - 1 == 0) {//最左边
-                    outRect.left = leftRight;
-                    outRect.right = leftRight / 2;
-                } else {
-                    outRect.left = leftRight / 2;
-                    outRect.right = leftRight / 2;
-                }
-            }else if(spanCount>2){
-                if (spanSizeIndex + spanSize == spanCount) {//最边上的需要右边,这里需要考虑到一个合并项的问题
-                    outRect.left = leftRight / 3;
-                    outRect.right = leftRight;
-                } else if (spanSizeIndex + spanSize - 1 == 0) {//最左边
-                    outRect.left = leftRight;
-                    outRect.right = leftRight / 3;
-                } else {
-                    outRect.left = leftRight *2/ 3;
-                    outRect.right = leftRight *2/ 3;
-                }
-            }
-            outRect.bottom = topBottom;
-
         } else {
-            if (childPosition + spanSize - 1 < spanCount) {//第一排的需要left
-                outRect.left = leftRight;
+            if (outermostBorder) {
+                offsetsHorizontalOutLine(outRect, view, parent);
+            } else {
+                offsetsHorizontal(outRect, view, parent);
             }
-            if(spanCount==2){
-                if (spanSizeIndex + spanSize == spanCount) {//最边上的需要bottom
-                    outRect.bottom = topBottom;
-                    outRect.top = topBottom/2;
-                } else if (spanSizeIndex + spanSize - 1 == 0) {//最上边
-                    outRect.top = topBottom;
-                    outRect.bottom = topBottom/2;
-                }else {
-                    outRect.top = topBottom/2;
-                    outRect.bottom = topBottom/2;
+
+        }
+    }
+
+    /**
+     * 最外层不画分割线(横向)
+     *
+     * @param outRect
+     * @param view
+     * @param parent
+     */
+    private void offsetsVertical(Rect outRect, View view, RecyclerView parent) {
+        GridLayoutManager layoutManager = (GridLayoutManager) parent.getLayoutManager();
+        final int position = parent.getChildLayoutPosition(view);
+
+        final int spanCount = layoutManager.getSpanCount();
+        final int childCount = parent.getAdapter().getItemCount();
+        //总行数
+        int rows = childCount / spanCount;
+        if (childCount % spanCount != 0) {
+            rows += 1;
+        }
+        //所在行数
+        int row = (position + 1) / spanCount;
+        if ((position + 1) % spanCount != 0) {
+            row += 1;
+        }
+
+        //每行只有两个
+        if (spanCount == 2) {
+            int average = leftRight / 2;
+            if (average > 0) {
+                //最左边的
+                if (position % spanCount == 0) {
+                    outRect.right = average;
+                } else {//最右边的
+                    outRect.left = average;
                 }
-            } else if (spanCount>2){
-                if (spanSizeIndex + spanSize == spanCount) {//最边上的需要bottom
-                    outRect.bottom = topBottom;
-                    outRect.top = topBottom/3;
-                } else if (spanSizeIndex + spanSize - 1 == 0) {//最上边
-                    outRect.top = topBottom;
-                    outRect.bottom = topBottom/3;
-                }else {
-                    outRect.top = topBottom*2/3;
-                    outRect.bottom = topBottom*2/3;
+            } else {
+                //最左边的
+                if (position % spanCount == 0) {
+                    outRect.right = leftRight;
                 }
             }
+        } else {
+            int average = leftRight / 3;
+            if (average > 0) {
+                if (position % spanCount == 0) {
+                    //最左边的
+                    outRect.right = average * 2;
+                } else if (position % spanCount == (spanCount - 1)) {
+                    //最右边的
+                    outRect.left = average * 2;
+                } else {
+                    outRect.left = average;
+                    outRect.right = average;
+                }
+            } else {
+                if (position % spanCount != 0) {
+                    //不是最左边的
+                    outRect.left = leftRight;
+                }
+            }
+        }
+        if (row != rows) {
+            outRect.bottom = topBottom;
+        }
+
+    }
+
+    /**
+     * 最外层画画分割线(横向)
+     *
+     * @param outRect
+     * @param view
+     * @param parent
+     */
+    private void offsetsVerticalOutLine(Rect outRect, View view, RecyclerView parent) {
+        GridLayoutManager layoutManager = (GridLayoutManager) parent.getLayoutManager();
+        final int position = parent.getChildAdapterPosition(view);
+        final int spanCount = layoutManager.getSpanCount();
+        //所在行数
+        int row = (position + 1) / spanCount;
+        if ((position + 1) % spanCount != 0) {
+            row += 1;
+        }
+        //每行只有两个
+        if (spanCount == 2) {
+            int average = leftRight / 2;
+            if (average > 0) {
+                //最左边的
+                if (position % spanCount == 0) {
+                    outRect.left = leftRight;
+                    outRect.right = average;
+                } else {//最右边的
+                    outRect.left = average;
+                    outRect.right = leftRight;
+                }
+            } else {
+                //最左边的
+                if (position % spanCount == 0) {
+                    outRect.right = leftRight;
+                }
+            }
+        } else {
+            int average = leftRight / 3;
+            if (average > 0) {
+                if (position % spanCount == 0) {
+                    //最左边的
+                    outRect.right = average;
+                    outRect.left = leftRight;
+                } else if (position % spanCount == (spanCount - 1)) {
+                    //最右边的
+                    outRect.left = average;
+                    outRect.right = leftRight;
+                } else {
+                    outRect.left = average * 2;
+                    outRect.right = average * 2;
+                }
+            } else {
+                if (position % spanCount == 0) {
+                    //不是最左边的
+                    outRect.left = leftRight;
+                }
+                outRect.right = leftRight;
+            }
+        }
+        if (row == 1) {
+            outRect.top = topBottom;
+        }
+        outRect.bottom = topBottom;
+    }
+
+    /**
+     * 最外层不画分割线(纵向)
+     *
+     * @param outRect
+     * @param view
+     * @param parent
+     */
+    private void offsetsHorizontal(Rect outRect, View view, RecyclerView parent) {
+        GridLayoutManager layoutManager = (GridLayoutManager) parent.getLayoutManager();
+        final int position = parent.getChildLayoutPosition(view);
+
+        final int spanCount = layoutManager.getSpanCount();
+        final int childCount = parent.getAdapter().getItemCount();
+        //总行数
+        int rows = childCount / spanCount;
+        if (childCount % spanCount != 0) {
+            rows += 1;
+        }
+        //所在行数
+        int row = (position + 1) / spanCount;
+        if ((position + 1) % spanCount != 0) {
+            row += 1;
+        }
+        //每行只有两个
+        if (spanCount == 2) {
+            int average = topBottom / 2;
+            if (average > 0) {
+                //最上边的
+                if (position % spanCount == 0) {
+                    outRect.bottom = average;
+                } else {//最下边的
+                    outRect.top = average;
+                }
+            } else {
+                //最上边的
+                if (position % spanCount == 0) {
+                    outRect.bottom = topBottom;
+                }
+            }
+        } else {
+            int average = topBottom / 3;
+            if (average > 0) {
+                if (position % spanCount == 0) {
+                    //最上边的
+                    outRect.bottom = average * 2;
+                } else if (position % spanCount == (spanCount - 1)) {
+                    //最下边的
+                    outRect.top = average * 2;
+                } else {
+                    outRect.top = average;
+                    outRect.bottom = average;
+                }
+            } else {
+                if (position % spanCount != 0) {
+                    //不是最上边的
+                    outRect.bottom = topBottom;
+                }
+            }
+        }
+        if (row != rows) {
             outRect.right = leftRight;
         }
+    }
+
+    /**
+     * 最外层画分割线(纵向)
+     *
+     * @param outRect
+     * @param view
+     * @param parent
+     */
+    private void offsetsHorizontalOutLine(Rect outRect, View view, RecyclerView parent) {
+        GridLayoutManager layoutManager = (GridLayoutManager) parent.getLayoutManager();
+        final int position = parent.getChildLayoutPosition(view);
+
+        final int spanCount = layoutManager.getSpanCount();
+        //所在行数
+        int row = (position + 1) / spanCount;
+        if ((position + 1) % spanCount != 0) {
+            row += 1;
+        }
+        //每行只有两个
+        if (spanCount == 2) {
+            int average = topBottom / 2;
+            if (average > 0) {
+                //最上边的
+                if (position % spanCount == 0) {
+                    outRect.bottom = average;
+                    outRect.top = topBottom;
+                } else {//最下边的
+                    outRect.top = average;
+                    outRect.bottom = topBottom;
+                }
+            } else {
+                //最上边的
+                if (position % spanCount == 0) {
+                    outRect.top = topBottom;
+                }
+                outRect.bottom = topBottom;
+            }
+        } else {
+            int average = topBottom / 3;
+            if (average > 0) {
+                if (position % spanCount == 0) {
+                    //最上边的
+                    outRect.bottom = average;
+                    outRect.top = topBottom;
+                } else if (position % spanCount == (spanCount - 1)) {
+                    //最下边的
+                    outRect.top = average;
+                    outRect.bottom = topBottom;
+                } else {
+                    outRect.top = average * 2;
+                    outRect.bottom = average * 2;
+                }
+            } else {
+                if (position % spanCount == 0) {
+                    //最上边的
+                    outRect.top = topBottom;
+                }
+                outRect.bottom = topBottom;
+            }
+        }
+        if (row == 1) {
+            outRect.left = leftRight;
+        }
+        outRect.right = leftRight;
     }
 
 }
