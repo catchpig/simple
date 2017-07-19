@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
     }
     private MainAdapter mAdapter;
     private void initView(){
+
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler);
         mAdapter = new MainAdapter(this);
         GridLayoutManager manager = new GridLayoutManager(this,3);
