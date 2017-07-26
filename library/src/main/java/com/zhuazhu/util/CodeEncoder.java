@@ -131,7 +131,7 @@ public class CodeEncoder {
      * @param height
      * @return
      */
-    public static Bitmap createOneCode(String text, int width, int height){
+    public static Bitmap barCode(String text, int width, int height){
         Bitmap bitmap = null;
         try{
             BitMatrix matrix=new MultiFormatWriter().encode(text, BarcodeFormat.CODE_128, width, height);
