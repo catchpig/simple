@@ -19,7 +19,10 @@ public class ExampleUnitTest {
     }
     @Test
     public void test() throws Exception{
+        String money = StringUtils.money(9684.8);
         boolean flag = StringUtils.validateIdentity("51152119890506529X");
-        System.out.println(flag);
+        System.out.println(StringUtils.validateNumber("-1."));
+        System.out.print(Double.valueOf("+.1"));
+        System.out.println(money);
     }
 }

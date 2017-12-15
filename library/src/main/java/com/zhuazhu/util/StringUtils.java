@@ -183,7 +183,13 @@ public class StringUtils {
      * @return
      */
     public static boolean validateNumber(String number) {
-        return number.matches("^[-+]?\\d+(.)?\\d+$");
+        if(number.indexOf(".")!=-1){
+            //小数
+            return number.matches("^[-+]?\\d+(.)\\d*$");
+        }else{
+            //整数
+            return number.matches("^[-+]?\\d+$");
+        }
     }
 
     /**

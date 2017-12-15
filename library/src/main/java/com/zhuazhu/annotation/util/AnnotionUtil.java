@@ -21,8 +21,10 @@ public class AnnotionUtil {
         if (cls == null) {
             return null;
         }
-
-        Screen screen = cls.getAnnotation(Screen.class);
+        Screen screen = null;
+        if(cls.isAnnotationPresent(Screen.class)){
+            screen = cls.getAnnotation(Screen.class);
+        }
         if (screen == null) {
             return screen(cls.getSuperclass());
         }
@@ -38,8 +40,10 @@ public class AnnotionUtil {
         if (cls == null) {
             return null;
         }
-
-        LayoutId layoutId = cls.getAnnotation(LayoutId.class);
+        LayoutId layoutId = null;
+        if(cls.isAnnotationPresent(LayoutId.class)){
+            layoutId = cls.getAnnotation(LayoutId.class);
+        }
         if (layoutId == null) {
             return layoutId(cls.getSuperclass());
         }

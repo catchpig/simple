@@ -26,6 +26,14 @@ public class AnnotationBind {
      * @param activity
      */
     public static void inject(Activity activity){
+        layoutId(activity);
+    }
+
+    /**
+     * 初始化layout
+     * @param activity
+     */
+    private static void layoutId(Activity activity){
         LayoutId layoutId = AnnotionUtil.layoutId(activity.getClass());
         if (layoutId != null) {
             activity.setContentView(layoutId.value());

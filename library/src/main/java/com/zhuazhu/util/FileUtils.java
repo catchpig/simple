@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.TextUtils;
+import android.util.Base64;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -621,6 +622,67 @@ public class FileUtils {
                     file.getAbsolutePath(), fileName, null);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
+        }finally {
+            file.delete();
+        }
+        // 最后通知图库更新
+        context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,
+                Uri.parse("file://" + Environment.getExternalStorageDirectory())));
+    }
+    /**
+     * 保存图片到系统图库
+     * @param context
+     * @param base64
+     */
+    public static void saveImageToGallery(Context context, String base64) {
+        String data = base64.substring(base64.indexOf(",")+1);
+        //获取图片格式:png,jpg,jpeg
+        String imgType = base64.substring(base64.indexOf("/")+1,base64.indexOf(";"));
+        byte[] bytes = null;
+        try {
+            bytes = Base64.decode(data,Base64.DEFAULT);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        long time = System.currentTimeMillis();
+        // 首先保存图片
+        File appDir = new File(Environment.getExternalStorageDirectory(), time+"");
+        if (!appDir.exists()) {
+            boolean flag = appDir.mkdir();
+            if(!flag){
+                return;
+            }
+        }
+        String fileName = time + "."+imgType;
+        File file = new File(appDir, fileName);
+
+        FileOutputStream fos = null;
+        try {
+            fos = new FileOutputStream(file);
+            fos.write(bytes);
+            fos.flush();
+            fos.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally {
+            if(fos!=null){
+                try {
+                    fos.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        // 其次把文件插入到系统图库
+        try {
+            MediaStore.Images.Media.insertImage(context.getContentResolver(),
+                    file.getAbsolutePath(), fileName, null);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }finally {
+            file.delete();
         }
         // 最后通知图库更新
         context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,
