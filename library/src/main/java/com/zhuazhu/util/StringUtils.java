@@ -64,7 +64,7 @@ public class StringUtils {
                 name = "现金券";
                 break;
             case "12":
-                name = "立减";
+                name = "立减补贴";
                 break;
             case "13":
                 name = "商户储值卡";
@@ -91,7 +91,28 @@ public class StringUtils {
                 name = "折扣金额";
                 break;
             case "31":
-                name = "钱包支付";
+                name = "鹏华钱包";
+                break;
+            case "40":
+                name = "会员折扣";
+                break;
+            case "41":
+                name = "折扣劵";
+                break;
+            case "42":
+                name = "满减劵";
+                break;
+            case "43":
+                name = "代金劵";
+                break;
+            case "44":
+                name = "返利券";
+                break;
+            case "45":
+                name = "预付卡";
+                break;
+            case "46":
+                name = "商场折扣";
                 break;
             default:
                 break;
