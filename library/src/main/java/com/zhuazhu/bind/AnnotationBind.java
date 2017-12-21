@@ -34,7 +34,7 @@ public class AnnotationBind {
      * @param activity
      */
     private static void layoutId(Activity activity){
-        LayoutId layoutId = AnnotionUtil.layoutId(activity.getClass());
+        LayoutId layoutId = AnnotionUtil.annotation(activity.getClass(),LayoutId.class);
         if (layoutId != null) {
             activity.setContentView(layoutId.value());
         } else {
@@ -51,7 +51,7 @@ public class AnnotationBind {
      */
     public static View inject(Fragment fragment, LayoutInflater inflater,
                               ViewGroup container){
-        LayoutId layoutId = AnnotionUtil.layoutId(fragment.getClass());
+        LayoutId layoutId = AnnotionUtil.annotation(fragment.getClass(),LayoutId.class);
         View v = null;
         if(layoutId!=null){
             v = inflater.inflate(layoutId.value(),container,false);

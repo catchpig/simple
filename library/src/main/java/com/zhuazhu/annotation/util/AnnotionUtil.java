@@ -1,7 +1,6 @@
 package com.zhuazhu.annotation.util;
 
-import com.zhuazhu.annotation.LayoutId;
-import com.zhuazhu.annotation.Screen;
+import java.lang.annotation.Annotation;
 
 /**
  * 创建时间:2017/4/2 18:18
@@ -13,40 +12,23 @@ import com.zhuazhu.annotation.Screen;
 
 public class AnnotionUtil {
     /**
-     * 获取屏幕注解
-     * @param cls
+     * 获取注解类
+     * @param cls 使用了注解的class
+     * @param aCls 注解的class
+     * @param <A>
      * @return
      */
-    public static Screen screen(Class<?> cls){
+    public static <A extends Annotation> A annotation(Class<?> cls, Class<A> aCls){
         if (cls == null) {
             return null;
         }
-        Screen screen = null;
-        if(cls.isAnnotationPresent(Screen.class)){
-            screen = cls.getAnnotation(Screen.class);
+        A a = null;
+        if(cls.isAnnotationPresent(aCls)){
+            a = cls.getAnnotation(aCls);
         }
-        if (screen == null) {
-            return screen(cls.getSuperclass());
+        if (a == null) {
+            return annotation(cls.getSuperclass(),aCls);
         }
-        return screen;
-    }
-
-    /**
-     * 获取布局文件的注解
-     * @param cls
-     * @return
-     */
-    public static LayoutId layoutId(Class<?> cls) {
-        if (cls == null) {
-            return null;
-        }
-        LayoutId layoutId = null;
-        if(cls.isAnnotationPresent(LayoutId.class)){
-            layoutId = cls.getAnnotation(LayoutId.class);
-        }
-        if (layoutId == null) {
-            return layoutId(cls.getSuperclass());
-        }
-        return layoutId;
+        return a;
     }
 }
