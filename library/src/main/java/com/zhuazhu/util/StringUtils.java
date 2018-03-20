@@ -283,7 +283,7 @@ public class StringUtils {
 
         } else if (obj instanceof String) {
             if (validateNumber(obj.toString())) {
-                obj = new BigDecimal(obj.toString()).doubleValue();
+                obj = new BigDecimal(obj.toString());
             } else {
                 obj = 0;
             }
@@ -378,7 +378,7 @@ public class StringUtils {
                 (0, 1)).equals("1")) {
             flag = false;
         } else {
-            Pattern p = Pattern.compile("^1(3|4|5|7|8)\\d{9}$");
+            Pattern p = Pattern.compile("^1(3|4|5|6|7|8|9)\\d{9}$");
             flag = p.matcher(phone).matches();
         }
         return flag;

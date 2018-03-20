@@ -11,7 +11,7 @@ import java.lang.annotation.Target;
  * 创建人: 李涛<br/>
  * 修改人: 李涛<br/>
  * 修改时间: 2017/12/21 12:57<br/>
- * 描述:urld地址的获取
+ * 描述:地址注解
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
